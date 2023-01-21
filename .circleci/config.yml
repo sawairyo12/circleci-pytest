@@ -16,10 +16,10 @@ jobs:
             pip install flake8
             pip install -e ./.
       - restore_cache:
-           keys:
-              - v1-dependencies-{{ .Branch }}-{{ checksum "setup.py" }}
-              - v1-dependencies-{{ .Branch }}-
-              - v1-dependencies-
+          keys:
+            - v1-dependencies-{{ .Branch }}-{{ checksum "src/setup.py" }}
+            - v1-dependencies-{{ .Branch }}-
+            - v1-dependencies-
       - run:
           name: run test
           command: |
