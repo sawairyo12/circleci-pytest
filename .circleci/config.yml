@@ -24,8 +24,4 @@ jobs:
           name: run test-cov
           command: |
             . venv/bin/activate
-<<<<<<< HEAD
             pytest --cov=src
-=======
-            pytest --cov=src
->>>>>>> 65f7bbe6317bf0412452c8de2762b2878e1087c4
