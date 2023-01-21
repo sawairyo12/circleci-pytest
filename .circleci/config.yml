@@ -54,5 +54,7 @@ jobs:
           command: |
             . venv/bin/activate
             flake8 src/ tests/
-      - notify_slack_fail
-      - notify_slack_pass
+      - slack/status:
+          success_message: ':circleci-pass: $CIRCLE_BRANCH のデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          failure_message: ':circleci-fail: $CIRCLE_BRANCH のデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          webhook: "${SLACK_WEBHOOK}"
