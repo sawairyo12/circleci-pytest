@@ -3,7 +3,6 @@ orbs:
   slack: circleci/slack@4.9.3
 jobs:
   build:
-      machine: true
       docker:
       - image: circleci/python:3.6.3
     steps:
