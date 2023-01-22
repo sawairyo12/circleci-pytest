@@ -34,7 +34,6 @@ jobs:
 workflows:
   my_workflow:
     jobs:
-      - build:
-          # このジョブでslack-tokenコンテキストを利用する
-          context:
-            - slack-token
+      # このジョブでslack-tokenコンテキストを利用する
+      context:
+        - slack-token
