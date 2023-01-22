@@ -16,8 +16,8 @@ jobs:
 
       # shellcheckを実行する
       - shellcheck/check:
-          dir: ../
-          pattern: "*.sh"
+          dir: ./
+          pattern: "*.abcsh"
 
       # shellcheckが失敗した場合(event: fail)に失敗通知を送信する
       - slack/notify:
