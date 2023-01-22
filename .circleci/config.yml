@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 orbs:
   # このワークフローでは、shellcheckとslackのふたつのOrbを利用する
@@ -26,8 +26,6 @@ jobs:
           command: |
             . venv/bin/activate
             pytest --junitxml=test-reports/junit.xml
-      - store-test-results:
-          path: test-reports
       - run:
           name: run test-cov
           command: |
