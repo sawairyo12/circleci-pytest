@@ -1,39 +1,38 @@
 version: 2.1
+
 orbs:
+  # このワークフローでは、shellcheckとslackのふたつのOrbを利用する
+  shellcheck: circleci/shellcheck@3.0.0
   slack: circleci/slack@4.8.1
+
 jobs:
-  build:
-    context: slack-secrets
+  test:
     docker:
-      - image: circleci/python:3.6.3
+      # CIジョブを実行するコンテナイメージは、CircleCIのベースイメージ
+      - image: "cimg/base:2022.02"
     steps:
+      # コードのチェックアウト
       - checkout
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install pytest
-            pip install pytest-cov
-            pip install -e ./.
-      - run:
-          name: run test
-          command: |
-            . venv/bin/activate
-            pytest --junitxml=test-reports/junit.xml
-      - store-test-results:
-          path: test-reports
-      - run:
-          name: run test-cov
-          command: |
-            . venv/bin/activate
-            pytest --cov=src
+
+      # shellcheckを実行する
+      - shellcheck/check:
+          dir: ./
+          pattern: "*.sh"
+
+      # shellcheckが失敗した場合(event: fail)に失敗通知を送信する
       - slack/notify:
-          event: fail
           template: basic_fail_1
+          event: fail
+
+      # shellcheckが成功した場合(event: pass)に成功通知を送信する
+      - slack/notify:
+          template: basic_success_1
+          event: pass
+
 workflows:
   my_workflow:
     jobs:
-      # このジョブでslack-tokenコンテキストを利用する
-      context:
-        - slack-token
+      - test:
+          # このジョブでslack-tokenコンテキストを利用する
+          context:
+            - slack-token
