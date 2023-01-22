@@ -3,6 +3,7 @@ orbs:
   slack: circleci/slack@4.1
 jobs:
   build:
+    context: slack-secrets
     docker:
       - image: circleci/python:3.6.3
     steps:
@@ -30,8 +31,3 @@ jobs:
       - slack/notify:
           event: fail
           template: basic_fail_1
-workflows:
-  deploy_and_notify:
-    jobs:
-      - build:
-          context: slack-secrets
