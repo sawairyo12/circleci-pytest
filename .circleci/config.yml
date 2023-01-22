@@ -1,9 +1,10 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.5.0
+  slack: circleci/slack@4.9.3
 jobs:
   build:
-    docker:
+      machine: true
+      docker:
       - image: circleci/python:3.6.3
     steps:
       - checkout
@@ -33,10 +34,9 @@ jobs:
       - slack/notify:
           event: pass
           template: basic_success_1
-
 workflows:
-  build_test_deploy:
+  deploy_and_notify:
     jobs:
-      - build:
+      - deploy:
           context:
-            - slack-notification
+            - slack-secrets
