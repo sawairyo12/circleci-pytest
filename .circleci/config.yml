@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.1
+  slack: circleci/slack@4.8.1
 jobs:
   build:
     context: slack-secrets
@@ -31,3 +31,10 @@ jobs:
       - slack/notify:
           event: fail
           template: basic_fail_1
+workflows:
+  my_workflow:
+    jobs:
+      - build:
+          # このジョブでslack-tokenコンテキストを利用する
+          context:
+            - slack-token
