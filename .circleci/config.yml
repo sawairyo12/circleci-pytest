@@ -10,31 +10,14 @@ jobs:
     docker:
       # CIジョブを実行するコンテナイメージは、CircleCIのベースイメージ
       - image: "cimg/base:2022.02"
-      - image: circleci/python:3.6.3
     steps:
       # コードのチェックアウト
       - checkout
 
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install pytest
-            pip install pytest-cov
-            pip install -e ./.
-      - run:
-          name: run test
-          command: |
-            . venv/bin/activate
-            pytest --junitxml=test-reports/junit.xml
-      - store-test-results:
-          path: test-reports
-      - run:
-          name: run test-cov
-          command: |
-            . venv/bin/activate
-            pytest --cov=src
+      # shellcheckを実行する
+      - shellcheck/check:
+          dir: ../
+          pattern: "*.sh"
 
       # shellcheckが失敗した場合(event: fail)に失敗通知を送信する
       - slack/notify:
